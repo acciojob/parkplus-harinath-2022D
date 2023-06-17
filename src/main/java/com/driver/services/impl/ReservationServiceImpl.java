@@ -24,12 +24,12 @@ public class ReservationServiceImpl implements ReservationService {
     ParkingLotRepository parkingLotRepository3;
     @Override
     public Reservation reserveSpot(Integer userId, Integer parkingLotId, Integer timeInHours, Integer numberOfWheels) throws Exception {
-
+        try {
             Optional<User> optionalUser = userRepository3.findById(userId);
             Optional<ParkingLot> optionalParkingLot = parkingLotRepository3.findById(parkingLotId);
 
 
-            if(!optionalUser.isPresent() || !optionalParkingLot.isPresent()){
+            if (!optionalUser.isPresent() || !optionalParkingLot.isPresent()) {
                 throw new Exception("Cannot make reservation");
             }
 
@@ -53,7 +53,7 @@ public class ReservationServiceImpl implements ReservationService {
                 }
             }
 
-            if(spot == null) throw new Exception("Cannot make reservation");
+            if (spot == null) throw new Exception("Cannot make reservation");
 
             Reservation reservation = new Reservation();
             reservation.setNumberOfHours(timeInHours);
@@ -69,6 +69,9 @@ public class ReservationServiceImpl implements ReservationService {
             userRepository3.save(user);
 
             return reservation;
+        }catch (Exception e){
+            return null;
+        }
 
 
     }
